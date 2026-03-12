@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>婚禮籌備管理系統</title>
+<title>婚禮籌備管理系統 | Wedding Planner</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -25,6 +25,7 @@
     background: var(--ivory);
     color: var(--charcoal);
     min-height: 100vh;
+    line-height: 1.6;
   }
 
   /* HEADER */
@@ -43,14 +44,6 @@
     background: radial-gradient(ellipse at 30% 50%, rgba(200,130,107,0.3) 0%, transparent 60%),
                 radial-gradient(ellipse at 70% 50%, rgba(196,163,90,0.2) 0%, transparent 60%);
   }
-  header::after {
-    content: '❧';
-    font-size: 1.2rem;
-    display: block;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-    letter-spacing: 1em;
-  }
   .header-content { position: relative; z-index: 1; }
   .header-en {
     font-family: 'Cormorant Garamond', serif;
@@ -62,7 +55,7 @@
     margin-bottom: 0.6rem;
   }
   header h1 {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     font-weight: 300;
     letter-spacing: 0.15em;
     margin-bottom: 0.5rem;
@@ -76,12 +69,6 @@
     content: ''; flex: 1; height: 1px; background: var(--gold); opacity: 0.5;
   }
   .header-divider span { color: var(--gold); font-size: 0.7rem; }
-  header p {
-    font-size: 0.85rem;
-    color: var(--blush);
-    letter-spacing: 0.1em;
-    opacity: 0.85;
-  }
 
   /* NAV */
   nav {
@@ -90,14 +77,13 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 12px var(--shadow);
   }
   nav button {
-    padding: 1rem 1.6rem;
+    padding: 1rem 1.4rem;
     border: none;
     background: none;
     cursor: pointer;
@@ -116,441 +102,88 @@
     font-weight: 500;
   }
 
-  /* MAIN */
-  main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
-
-  /* PANELS */
+  /* MAIN & PANELS */
+  main { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
   .panel { display: none; animation: fadeIn 0.4s ease; }
   .panel.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.8rem;
-    color: var(--deep);
-    margin-bottom: 0.3rem;
-  }
-  .section-subtitle {
-    font-size: 0.8rem;
-    color: #999;
-    letter-spacing: 0.12em;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--light);
-  }
-
-  /* ── CHECKLIST ── */
-  .checklist-controls {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
-  }
-  .progress-bar-wrap {
-    flex: 1; max-width: 300px;
-  }
-  .progress-label {
-    display: flex; justify-content: space-between;
-    font-size: 0.75rem; color: #888; margin-bottom: 0.4rem;
-  }
-  .progress-bar {
-    height: 6px; background: var(--light); border-radius: 99px; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; background: linear-gradient(90deg, var(--rose), var(--gold));
-    border-radius: 99px; transition: width 0.5s ease;
-  }
-  .filter-btn-group { display: flex; gap: 0.4rem; }
-  .filter-btn {
-    padding: 0.35rem 0.9rem;
-    border: 1px solid var(--blush);
-    background: white;
-    border-radius: 99px;
-    cursor: pointer;
-    font-family: 'Noto Serif TC', serif;
-    font-size: 0.75rem;
-    color: #888;
-    transition: all 0.2s;
-  }
-  .filter-btn:hover, .filter-btn.active {
-    background: var(--deep);
-    border-color: var(--deep);
-    color: white;
-  }
-
-  .checklist-group { margin-bottom: 2rem; }
-  .checklist-group-title {
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.8rem;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-  .checklist-group-title::after {
-    content: ''; flex: 1; height: 1px; background: var(--light);
-  }
-  .checklist-item {
-    display: flex; align-items: flex-start; gap: 0.9rem;
-    padding: 0.9rem 1.1rem;
-    background: white;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-  .checklist-item:hover { border-color: var(--blush); transform: translateX(2px); }
-  .checklist-item:hover .btn-del-item { opacity: 1; }
-  .checklist-item.done { opacity: 0.55; }
-  .checklist-item.done .item-text { text-decoration: line-through; }
-  .btn-del-item {
-    opacity: 0; width: 20px; height: 20px; min-width: 20px;
-    border-radius: 50%; border: 1px solid #eee; background: white;
-    cursor: pointer; color: #ccc; font-size: 12px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s; margin-top: 2px; flex-shrink: 0;
-  }
-  .btn-del-item:hover { background: #fde8e8; border-color: #f5c2b4; color: #c0392b; }
-  .checkbox {
-    width: 20px; height: 20px; min-width: 20px;
-    border: 1.5px solid var(--blush);
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-    margin-top: 2px;
-  }
-  .checklist-item.done .checkbox {
-    background: var(--sage);
-    border-color: var(--sage);
-  }
-  .checkbox::after {
-    content: '✓';
-    font-size: 11px;
-    color: white;
-    display: none;
-  }
-  .checklist-item.done .checkbox::after { display: block; }
-  .item-content { flex: 1; }
-  .item-text { font-size: 0.9rem; line-height: 1.5; }
-  .item-meta {
-    font-size: 0.72rem; color: #bbb; margin-top: 0.2rem;
-    display: flex; gap: 0.8rem; flex-wrap: wrap;
-  }
-  .tag {
-    padding: 0.15rem 0.6rem;
-    border-radius: 99px;
-    font-size: 0.68rem;
-    font-weight: 500;
-  }
-  .tag-urgent { background: #fde8e8; color: #c0392b; }
-  .tag-venue { background: #e8f0fe; color: #1a56db; }
-  .tag-attire { background: #fce8fb; color: #9b59b6; }
-  .tag-people { background: #e8fce8; color: #27ae60; }
-  .tag-media { background: #fff3cd; color: #856404; }
-  .tag-logistics { background: #e8f4f8; color: #2980b9; }
-  .tag-food { background: #fef0e8; color: #d35400; }
-  .add-item-row {
-    display: flex; gap: 0.6rem; margin-top: 1rem;
-  }
-  .add-item-row input {
-    flex: 1; padding: 0.7rem 1rem;
-    border: 1px solid var(--light); border-radius: 6px;
-    font-family: 'Noto Serif TC', serif; font-size: 0.85rem;
-    outline: none; transition: border 0.2s;
-  }
-  .add-item-row input:focus { border-color: var(--blush); }
-  .btn-add {
-    padding: 0.7rem 1.3rem;
-    background: var(--deep);
-    color: white; border: none; border-radius: 6px;
-    cursor: pointer; font-family: 'Noto Serif TC', serif;
-    font-size: 0.82rem; transition: background 0.2s;
-  }
-  .btn-add:hover { background: var(--rose); }
-
-  /* ── EDITABLE TIMELINE ── */
-  .tl-toolbar {
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 0.8rem;
-    background: white; border: 1px solid var(--light);
-    border-radius: 10px; padding: 1rem 1.2rem;
-    margin-bottom: 1.5rem;
-  }
-  .tl-toolbar-left { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .tl-start-time {
-    display: flex; align-items: center; gap: 0.5rem;
-    font-size: 0.8rem; color: #888;
-  }
-  .tl-start-time input {
-    padding: 0.3rem 0.6rem; border: 1px solid var(--light); border-radius: 6px;
-    font-family: 'Noto Serif TC', serif; font-size: 0.82rem;
-    outline: none; width: 80px; color: var(--deep);
-    transition: border 0.2s;
-  }
-  .tl-start-time input:focus { border-color: var(--blush); }
-  .tl-total-time {
-    font-size: 0.75rem; color: var(--sage);
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-    padding: 0.3rem 0.7rem; background: #f0f7f2; border-radius: 99px;
-  }
-  .btn-tl-add {
-    display: flex; align-items: center; gap: 0.4rem;
-    padding: 0.5rem 1rem; background: var(--deep); color: white;
-    border: none; border-radius: 6px; cursor: pointer;
-    font-family: 'Noto Serif TC', serif; font-size: 0.8rem;
-    transition: background 0.2s;
-  }
-  .btn-tl-add:hover { background: var(--rose); }
-
-  .timeline-body { position: relative; }
-  .timeline-body::before {
-    content: '';
-    position: absolute; left: 95px; top: 0; bottom: 0; width: 2px;
-    background: linear-gradient(180deg, var(--gold) 0%, var(--rose) 100%);
-    opacity: 0.3; pointer-events: none;
-  }
-  .timeline-event {
-    display: flex; gap: 1.5rem;
-    margin-bottom: 0.6rem; position: relative;
-    animation: fadeIn 0.25s ease;
-  }
-  .event-time {
-    width: 80px; min-width: 80px; text-align: right;
-    padding-top: 1rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.9rem; color: var(--rose);
-    letter-spacing: 0.05em;
-  }
-  .event-dot {
-    width: 12px; height: 12px; min-width: 12px;
-    border-radius: 50%; background: var(--gold);
-    border: 2px solid var(--ivory);
-    box-shadow: 0 0 0 2px var(--gold);
-    margin-top: 1.1rem; position: relative; z-index: 1;
-  }
-  .event-card {
-    flex: 1; background: white; border-radius: 8px;
-    padding: 0.75rem 1rem; margin-left: 0.5rem;
-    border: 1px solid var(--light);
-    transition: box-shadow 0.2s, border-color 0.2s;
-  }
-  .event-card:hover { box-shadow: 0 3px 12px var(--shadow); border-color: var(--blush); }
-  .event-card-header {
-    display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem;
-  }
-  .event-title-input {
-    flex: 1; font-family: 'Noto Serif TC', serif; font-size: 0.92rem;
-    font-weight: 500; color: var(--charcoal);
-    border: none; background: none; outline: none;
-    border-bottom: 1px dashed transparent; transition: border 0.2s;
-    padding: 0 0 1px;
-  }
-  .event-title-input:focus { border-bottom-color: var(--blush); }
-  .event-card-meta {
-    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
-  }
-  .dur-wrap {
-    display: flex; align-items: center; gap: 0.3rem;
-    font-size: 0.72rem; color: var(--sage);
-  }
-  .dur-wrap label { cursor: default; }
-  .dur-input {
-    width: 48px; padding: 0.15rem 0.4rem;
-    border: 1px solid var(--light); border-radius: 4px;
-    font-family: 'Cormorant Garamond', serif; font-size: 0.82rem;
-    color: var(--deep); text-align: center; outline: none;
-    transition: border 0.2s;
-  }
-  .dur-input:focus { border-color: var(--gold); }
-  .phase-badge {
-    font-size: 0.65rem; padding: 0.1rem 0.55rem;
-    border-radius: 99px; font-weight: 500; cursor: pointer;
-    border: 1px solid transparent; transition: all 0.15s;
-  }
-  .phase-pre    { background: #e8f4ee; color: var(--sage); border-color: #c5dfc9; }
-  .phase-ceremony { background: #fdeae5; color: var(--rose); border-color: #f5c2b4; }
-  .phase-post   { background: #fef9ec; color: var(--gold); border-color: #f0dfa0; }
-  .phase-engagement { background: #f0eafa; color: #7c4dba; border-color: #d6c4f0; }
-
-  .event-detail-input {
-    width: 100%; margin-top: 0.35rem;
-    font-family: 'Noto Serif TC', serif; font-size: 0.76rem; color: #999;
-    border: none; background: none; outline: none;
-    border-bottom: 1px dashed transparent; transition: border 0.2s;
-    padding: 0 0 1px; line-height: 1.5;
-  }
-  .event-detail-input:focus { border-bottom-color: var(--light); color: #666; }
-  .event-detail-input::placeholder { color: #ccc; }
-
-  /* Four-field grid */
-  .event-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem 0.8rem;
-    margin-top: 0.55rem;
-  }
-  .event-field {
-    background: var(--ivory); border-radius: 6px;
-    padding: 0.45rem 0.6rem; border: 1px solid var(--light);
-    transition: border-color 0.2s;
-  }
-  .event-field:focus-within { border-color: var(--blush); background: white; }
-  .event-field-label {
-    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold); font-weight: 500; margin-bottom: 0.2rem;
-    display: flex; align-items: center; gap: 0.3rem;
-  }
-  .event-field-input {
-    width: 100%; border: none; background: none; outline: none;
-    font-family: 'Noto Serif TC', serif; font-size: 0.76rem;
-    color: var(--charcoal); line-height: 1.4; resize: none;
-    padding: 0; overflow: hidden;
-  }
-  .event-field-input::placeholder { color: #ccc; font-style: italic; }
-
-  .btn-del-event {
-    width: 22px; height: 22px; min-width: 22px;
-    border-radius: 50%; border: 1px solid #eee; background: white;
-    cursor: pointer; color: #ccc; font-size: 13px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s; line-height: 1;
-  }
-  .btn-del-event:hover { background: #fde8e8; border-color: #f5c2b4; color: #c0392b; }
-
-  /* Add event form */
-  .add-event-form {
-    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
-    background: white; border: 1.5px dashed var(--blush);
-    border-radius: 8px; padding: 0.8rem 1rem; margin-top: 0.6rem;
-  }
-  .add-event-form input, .add-event-form select {
-    padding: 0.45rem 0.7rem; border: 1px solid var(--light); border-radius: 6px;
-    font-family: 'Noto Serif TC', serif; font-size: 0.82rem; outline: none;
-    transition: border 0.2s; background: white;
-  }
-  .add-event-form input:focus, .add-event-form select:focus { border-color: var(--blush); }
-  .add-event-form .inp-title { flex: 2; min-width: 130px; }
-  .add-event-form .inp-dur   { width: 70px; }
-  .add-event-form .inp-detail { flex: 3; min-width: 160px; }
-
-  /* Timeline empty state */
-  .tl-empty {
-    text-align: center; padding: 3rem 1rem; color: #ccc;
-    font-size: 0.88rem;
-  }
-  .tl-empty .tl-empty-icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
-
-  .staff-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.8rem;
-  }
-  .staff-card {
-    background: white; border-radius: 8px; padding: 1rem;
-    border: 1px solid var(--light); transition: all 0.2s;
-  }
-  .staff-card:hover { border-color: var(--blush); }
-  .staff-role {
-    font-size: 0.72rem; letter-spacing: 0.1em; color: var(--gold);
-    text-transform: uppercase; margin-bottom: 0.3rem;
-  }
-  .staff-name {
-    font-size: 0.9rem; font-weight: 500; color: var(--deep);
-  }
-  .staff-name input {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 0.9rem; font-weight: 500; color: var(--deep);
-    border: none; background: none; width: 100%;
-    outline: none; border-bottom: 1px dashed transparent;
-    transition: border 0.2s; padding: 0;
-  }
-  .staff-name input:focus { border-bottom-color: var(--blush); }
-  .staff-checks {
-    display: flex; gap: 0.5rem; margin-top: 0.6rem;
-  }
-  .staff-check {
-    font-size: 0.65rem; padding: 0.15rem 0.5rem;
-    border-radius: 4px; cursor: pointer;
-    border: 1px solid var(--light); transition: all 0.2s;
-    color: #aaa;
-  }
-  .staff-check.on { background: var(--sage); color: white; border-color: var(--sage); }
-  .staff-section-label {
-    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--rose); margin: 1.5rem 0 0.8rem;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-  .staff-section-label::after {
-    content: ''; flex: 1; height: 1px; background: var(--light);
-  }
-
-  /* ── NOTES ── */
-  .notes-area {
-    background: white; border: 1px solid var(--light); border-radius: 10px; padding: 1.5rem;
-    min-height: 300px;
-  }
-  .notes-area textarea {
-    width: 100%; min-height: 280px;
-    font-family: 'Noto Serif TC', serif; font-size: 0.9rem;
-    border: none; outline: none; resize: vertical;
-    color: var(--charcoal); line-height: 1.9;
-    background: transparent;
-  }
-
-  /* STATUS BADGE */
-  .status-badge {
-    display: inline-flex; align-items: center; gap: 0.3rem;
-    padding: 0.2rem 0.7rem; border-radius: 99px; font-size: 0.68rem;
-  }
-  .badge-done { background: #e8f8ee; color: #27ae60; }
-  .badge-todo { background: #fef3e2; color: #e67e22; }
-  .badge-info { background: #e8f0fe; color: #1a56db; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.8rem; color: var(--deep); margin-bottom: 0.3rem; }
+  .section-subtitle { font-size: 0.8rem; color: #999; letter-spacing: 0.12em; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--light); }
 
   /* OVERVIEW CARDS */
   .overview-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem; margin-bottom: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
   }
   .ov-card {
-    background: white; border-radius: 10px; padding: 1.3rem;
-    border: 1px solid var(--light); text-align: center;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--light);
+    box-shadow: 0 4px 15px var(--shadow);
   }
-  .ov-icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
-  .ov-num { font-size: 2rem; font-weight: 300; color: var(--deep); font-family: 'Cormorant Garamond', serif; }
-  .ov-label { font-size: 0.72rem; color: #aaa; letter-spacing: 0.1em; }
+  .ov-num { font-size: 2.5rem; color: var(--deep); font-family: 'Cormorant Garamond', serif; font-weight: 300; }
+  .ov-label { font-size: 0.85rem; color: var(--gold); letter-spacing: 0.1em; margin-top: 0.5rem; }
 
-  /* ── DOWNLOAD BUTTONS ── */
-  .download-bar {
-    display: flex; gap: 0.8rem; flex-wrap: wrap;
-    background: white; border-radius: 10px; padding: 1.2rem 1.5rem;
-    border: 1px solid var(--light); margin-bottom: 1.5rem;
-    align-items: center;
+  /* CHECKLIST UI */
+  .checklist-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    border: 1px solid transparent;
+    transition: 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
   }
-  .download-bar-label {
-    font-size: 0.72rem; letter-spacing: 0.18em; color: var(--gold);
-    text-transform: uppercase; margin-right: auto;
+  .checklist-item:hover { border-color: var(--blush); }
+  .checklist-item.done { opacity: 0.6; }
+  .checklist-item.done .item-text { text-decoration: line-through; }
+  .checkbox { width: 22px; height: 22px; border: 2px solid var(--blush); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: 0.2s; }
+  .checklist-item.done .checkbox { background: var(--sage); border-color: var(--sage); }
+  .checkbox::after { content: '✓'; color: white; display: none; font-size: 14px; }
+  .checklist-item.done .checkbox::after { display: block; }
+  .item-text { flex-grow: 1; font-size: 0.95rem; }
+  .btn-del { color: #ccc; cursor: pointer; font-size: 1.2rem; transition: 0.2s; }
+  .btn-del:hover { color: var(--rose); }
+
+  /* TIMELINE UI */
+  .timeline-container { position: relative; padding-left: 100px; }
+  .timeline-container::before {
+    content: ''; position: absolute; left: 110px; top: 0; bottom: 0; width: 2px; background: var(--light);
   }
-  .btn-download {
-    display: flex; align-items: center; gap: 0.45rem;
-    padding: 0.6rem 1.2rem; border-radius: 7px; border: none;
-    cursor: pointer; font-family: 'Noto Serif TC', serif;
-    font-size: 0.82rem; font-weight: 500; transition: all 0.2s;
+  .timeline-item { display: flex; margin-bottom: 2rem; position: relative; }
+  .time-label { position: absolute; left: -100px; width: 80px; text-align: right; color: var(--rose); font-family: 'Cormorant Garamond', serif; font-weight: bold; }
+  .time-dot { position: absolute; left: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); border: 2px solid white; z-index: 1; top: 8px; }
+  .event-card { background: white; padding: 1.2rem; border-radius: 10px; border: 1px solid var(--light); flex-grow: 1; box-shadow: 0 4px 10px var(--shadow); }
+  .event-card h3 { font-size: 1.1rem; color: var(--deep); margin-bottom: 0.5rem; }
+  .event-detail { font-size: 0.85rem; color: #777; }
+
+  /* INPUTS */
+  .add-row { display: flex; gap: 0.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  input, select, textarea {
+    padding: 0.8rem; border: 1px solid var(--light); border-radius: 6px; font-family: inherit; outline: none;
   }
-  .btn-download-primary {
-    background: var(--deep); color: white;
-  }
-  .btn-download-primary:hover { background: var(--rose); }
-  .btn-download-secondary {
-    background: var(--light); color: var(--deep);
-    border: 1px solid var(--blush);
-  }
-  .btn-download-secondary:hover { background: var(--blush); }
+  input:focus { border-color: var(--blush); }
+  .btn-primary { background: var(--deep); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+  .btn-primary:hover { background: var(--rose); }
+
+  /* STAFF GRID */
+  .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+  .staff-card { background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid var(--light); box-shadow: 0 3px 8px var(--shadow); }
+  .staff-role { color: var(--gold); font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold; text-transform: uppercase; }
+  .staff-name { font-size: 1.1rem; margin: 0.5rem 0; color: var(--deep); }
 
   @media (max-width: 600px) {
-    header h1 { font-size: 1.8rem; }
-    .timeline-body::before { left: 65px; }
-    .event-time { width: 55px; font-size: 0.75rem; }
-    nav button { padding: 0.8rem 0.9rem; font-size: 0.78rem; }
-    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    nav button { padding: 0.8rem 0.6rem; font-size: 0.75rem; }
+    .timeline-container { padding-left: 60px; }
+    .timeline-container::before { left: 70px; }
+    .time-label { left: -60px; width: 50px; font-size: 0.8rem; }
+    .time-dot { left: 5px; }
   }
 </style>
 </head>
@@ -574,798 +207,239 @@
 </nav>
 
 <main>
-
-<!-- OVERVIEW -->
-<div id="panel-overview" class="panel active">
-  <div class="section-title">婚禮籌備總覽</div>
-  <div class="section-subtitle">WEDDING OVERVIEW · 掌握籌備進度</div>
-
-  <div class="download-bar">
-    <span class="download-bar-label">⬇ 下載文件</span>
-    <button class="btn-download btn-download-primary" onclick="printTimeline()">💒 下載婚禮流程表</button>
-    <button class="btn-download btn-download-secondary" onclick="printChecklist()">✅ 下載待辦清單</button>
-  </div>
-  <div class="overview-grid">
-    <div class="ov-card">
-      <div class="ov-icon">✅</div>
-      <div class="ov-num" id="ov-done">0</div>
-      <div class="ov-label">已完成項目</div>
-    </div>
-    <div class="ov-card">
-      <div class="ov-icon">⏳</div>
-      <div class="ov-num" id="ov-todo">0</div>
-      <div class="ov-label">待辦項目</div>
-    </div>
-    <div class="ov-card">
-      <div class="ov-icon">💒</div>
-      <div class="ov-num">2</div>
-      <div class="ov-label">流程表</div>
-    </div>
-    <div class="ov-card">
-      <div class="ov-icon">👥</div>
-      <div class="ov-num" id="ov-staff">75</div>
-      <div class="ov-label">工作人員角色</div>
-    </div>
-  </div>
-
-  <div style="background:white;border-radius:10px;padding:1.5rem;border:1px solid var(--light);margin-bottom:1.5rem;">
-    <div style="font-size:0.75rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:1rem;">整體籌備進度</div>
-    <div class="progress-bar" style="height:10px;">
-      <div class="progress-fill" id="ov-progress" style="width:0%"></div>
-    </div>
-    <div id="ov-pct" style="font-size:0.78rem;color:#aaa;margin-top:0.5rem;text-align:right;">0% 完成</div>
-  </div>
-
-  <div style="background:white;border-radius:10px;padding:1.5rem;border:1px solid var(--light);">
-    <div style="font-size:0.75rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:1rem;">重要待辦提醒</div>
-    <div id="ov-upcoming"></div>
-  </div>
-</div>
-
-<!-- CHECKLIST -->
-<div id="panel-checklist" class="panel">
-  <div class="section-title">婚禮待辦清單</div>
-  <div class="section-subtitle">CHECKLIST · 逐步完成每件事</div>
-
-  <div class="checklist-controls">
-    <div class="progress-bar-wrap">
-      <div class="progress-label"><span>籌備進度</span><span id="progress-text">0/0</span></div>
-      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-    </div>
-    <div class="filter-btn-group">
-      <button class="filter-btn active" onclick="filterItems('all',this)">全部</button>
-      <button class="filter-btn" onclick="filterItems('todo',this)">待辦</button>
-      <button class="filter-btn" onclick="filterItems('done',this)">已完成</button>
-    </div>
-  </div>
-
-  <div id="checklist-container"></div>
-
-  <div style="background:white;border-radius:10px;padding:1.2rem;border:1px solid var(--light);margin-top:1.5rem;">
-    <div style="font-size:0.72rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:0.7rem;">新增待辦項目</div>
-    <div class="add-item-row">
-      <input type="text" id="new-item-text" placeholder="輸入新的待辦事項..." />
-      <select id="new-item-group" style="padding:0.7rem;border:1px solid var(--light);border-radius:6px;font-family:'Noto Serif TC',serif;font-size:0.82rem;outline:none;">
-        <option value="場地與場佈">場地與場佈</option>
-        <option value="人員與分工">人員與分工</option>
-        <option value="媒體與影音">媒體與影音</option>
-        <option value="儀式道具">儀式道具</option>
-        <option value="飲食與招待">飲食與招待</option>
-        <option value="其他">其他</option>
-      </select>
-      <select id="new-item-cat" style="padding:0.7rem;border:1px solid var(--light);border-radius:6px;font-family:'Noto Serif TC',serif;font-size:0.82rem;outline:none;">
-        <option value="venue">場地</option>
-        <option value="people">人員</option>
-        <option value="media">媒體影音</option>
-        <option value="logistics">儀式道具</option>
-        <option value="food">飲食招待</option>
-        <option value="attire">服裝</option>
-        <option value="urgent">緊急</option>
-      </select>
-      <button class="btn-add" onclick="addItem()">新增</button>
-    </div>
-  </div>
-</div>
-
-<!-- WEDDING FLOW -->
-<div id="panel-wedding" class="panel">
-  <div class="section-title">婚禮儀式流程</div>
-  <div class="section-subtitle">WEDDING CEREMONY · 可新增、刪除活動，調整時長後自動重算時間軸</div>
-
-  <div class="tl-toolbar">
-    <div class="tl-toolbar-left">
-      <div class="tl-start-time">
-        <span>開始時間</span>
-        <input type="time" id="wed-start-time" value="12:00" oninput="recalcWeddingTimes()">
+  <!-- OVERVIEW -->
+  <div id="panel-overview" class="panel active">
+    <div class="section-title">婚禮籌備總覽</div>
+    <div class="section-subtitle">OVERVIEW · 掌握即時進度</div>
+    <div class="overview-grid">
+      <div class="ov-card">
+        <div class="ov-num" id="ov-todo-count">0</div>
+        <div class="ov-label">待辦事項</div>
       </div>
-      <div class="tl-total-time" id="wed-total-label">共 0 分鐘</div>
-    </div>
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <div class="tl-toolbar-left">
-        <button class="filter-btn active" onclick="filterWedding('all',this)" style="font-size:0.75rem;">全部</button>
-        <button class="filter-btn" onclick="filterWedding('pre',this)" style="font-size:0.75rem;">準備</button>
-        <button class="filter-btn" onclick="filterWedding('ceremony',this)" style="font-size:0.75rem;">儀式</button>
-        <button class="filter-btn" onclick="filterWedding('post',this)" style="font-size:0.75rem;">儀式後</button>
+      <div class="ov-card">
+        <div class="ov-num" id="ov-done-count">0</div>
+        <div class="ov-label">已完成項目</div>
       </div>
-      <button class="btn-tl-add" onclick="showAddWeddingForm()">＋ 新增活動</button>
+      <div class="ov-card">
+        <div class="ov-num" id="ov-staff-count">0</div>
+        <div class="ov-label">工作人員</div>
+      </div>
+    </div>
+    <div style="background:white; padding: 2rem; border-radius:12px; border: 1px solid var(--light);">
+      <p style="font-size: 0.9rem; color: var(--gold); margin-bottom: 0.5rem;">整體進度</p>
+      <div style="height: 12px; background: var(--light); border-radius: 10px; overflow: hidden;">
+        <div id="ov-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--rose), var(--gold)); transition: 0.5s;"></div>
+      </div>
+      <p id="ov-progress-text" style="text-align: right; font-size: 0.8rem; margin-top: 0.5rem; color: #999;">0% 完成</p>
     </div>
   </div>
-  <div class="timeline-body" id="wedding-timeline"></div>
-  <div id="add-wedding-form" style="display:none;" class="add-event-form">
-    <input class="inp-title" type="text" id="wed-new-title" placeholder="活動名稱（必填）">
-    <input class="inp-dur" type="number" id="wed-new-dur" placeholder="時長(分)" min="1" value="10">
-    <select id="wed-new-phase">
-      <option value="pre">準備階段</option>
-      <option value="ceremony" selected>正式儀式</option>
-      <option value="post">儀式後</option>
-    </select>
-    <input class="inp-detail" type="text" id="wed-new-detail" placeholder="📋 內容說明">
-    <input class="inp-detail" type="text" id="wed-new-personnel" placeholder="👤 人員">
-    <input class="inp-detail" type="text" id="wed-new-av" placeholder="🎬 影音">
-    <input class="inp-detail" type="text" id="wed-new-equipment" placeholder="📦 器材">
-    <button class="btn-tl-add" onclick="addWeddingEvent()">新增</button>
-    <button onclick="document.getElementById('add-wedding-form').style.display='none'" style="padding:0.45rem 0.8rem;border:1px solid var(--light);border-radius:6px;background:white;cursor:pointer;font-size:0.8rem;color:#aaa;">取消</button>
-  </div>
-</div>
 
-<!-- STAFF -->
-<div id="panel-staff" class="panel">
-  <div class="section-title">工作人員名單</div>
-  <div class="section-subtitle">STAFF LIST · 點擊姓名欄位可直接編輯</div>
-  <div id="staff-container"></div>
-</div>
-
-<!-- NOTES -->
-<div id="panel-notes" class="panel">
-  <div class="section-title">備忘筆記</div>
-  <div class="section-subtitle">NOTES · 自由記錄任何想法與提醒</div>
-  <div class="notes-area">
-    <textarea id="notes-text" placeholder="在這裡記下任何重要提醒、聯絡資訊或靈感...&#10;&#10;例如：&#10;• 訂婚戒指放在 ___&#10;• 六禮清單確認&#10;• 禮車司機聯絡電話&#10;• 場地最終確認日期"></textarea>
+  <!-- CHECKLIST -->
+  <div id="panel-checklist" class="panel">
+    <div class="section-title">待辦事項清單</div>
+    <div class="section-subtitle">CHECKLIST · 步步為營</div>
+    <div id="checklist-list"></div>
+    <div class="add-row">
+      <input type="text" id="new-todo-text" style="flex-grow:1" placeholder="新增待辦事項...">
+      <button class="btn-primary" onclick="addTodo()">新增</button>
+    </div>
   </div>
-  <div style="margin-top:0.8rem;text-align:right;">
-    <button class="btn-add" onclick="saveNotes()">儲存筆記</button>
-    <span id="notes-saved" style="font-size:0.75rem;color:var(--sage);margin-left:0.8rem;display:none;">已儲存 ✓</span>
-  </div>
-</div>
 
+  <!-- WEDDING FLOW -->
+  <div id="panel-wedding" class="panel">
+    <div class="section-title">婚禮流程表</div>
+    <div class="section-subtitle">WEDDING FLOW · 精確掌控時間</div>
+    <div class="timeline-container" id="timeline-list"></div>
+    <div class="add-row" style="background: white; padding: 1.5rem; border-radius: 10px; border: 1px dashed var(--blush);">
+      <input type="time" id="new-flow-time" value="12:00">
+      <input type="text" id="new-flow-title" placeholder="活動名稱" style="flex-grow:1">
+      <input type="text" id="new-flow-desc" placeholder="詳細備註" style="flex-grow:1">
+      <button class="btn-primary" onclick="addFlow()">新增活動</button>
+    </div>
+  </div>
+
+  <!-- STAFF -->
+  <div id="panel-staff" class="panel">
+    <div class="section-title">工作人員名單</div>
+    <div class="section-subtitle">STAFF · 團隊分工</div>
+    <div class="staff-grid" id="staff-list"></div>
+    <div class="add-row">
+      <input type="text" id="new-staff-role" placeholder="職位 (如: 總召)">
+      <input type="text" id="new-staff-name" placeholder="姓名" style="flex-grow:1">
+      <button class="btn-primary" onclick="addStaff()">新增人員</button>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div id="panel-notes" class="panel">
+    <div class="section-title">備忘筆記</div>
+    <div class="section-subtitle">NOTES · 隨手記錄靈感</div>
+    <textarea id="notes-content" style="width: 100%; min-height: 300px; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--light); font-size: 1rem;" placeholder="輸入您的筆記..." oninput="saveNotes()"></textarea>
+  </div>
 </main>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────────────────
+  // 資料狀態
+  let state = {
+    todos: JSON.parse(localStorage.getItem('wedding_todos')) || [
+      { id: 1, text: '訂購婚禮喜餅', done: false },
+      { id: 2, text: '確認伴郎伴娘名單', done: true }
+    ],
+    flows: JSON.parse(localStorage.getItem('wedding_flows')) || [
+      { id: 1, time: '11:00', title: '新娘化妝開始', desc: '新秘老師抵達飯店' },
+      { id: 2, time: '12:30', title: '迎娶儀式', desc: '新郎出發至新娘家' }
+    ],
+    staff: JSON.parse(localStorage.getItem('wedding_staff')) || [
+      { id: 1, role: '總召', name: '王大明' },
+      { id: 2, role: '伴娘', name: '林小美' }
+    ],
+    notes: localStorage.getItem('wedding_notes') || ''
+  };
 
-const TAG_MAP   = { venue:'tag-venue', people:'tag-people', media:'tag-media', logistics:'tag-logistics', food:'tag-food', attire:'tag-attire', urgent:'tag-urgent' };
-const TAG_LABEL = { venue:'場地', people:'人員', media:'媒體影音', logistics:'儀式道具', food:'飲食招待', attire:'服裝', urgent:'緊急' };
-
-const CHECKLIST_DATA_DEFAULT = [
-  { group: '場地與場佈', items: [
-    { text: '確認婚禮場地（教會）', cat: 'venue' },
-    { text: '場佈設計確認（花藝、布置）', cat: 'venue' },
-    { text: '婚宴桌次表製作', cat: 'venue' },
-    { text: '教會座位圖確認', cat: 'venue' },
-    { text: '確認停車位安排', cat: 'venue' },
-    { text: '婚禮前一天佈置場地', cat: 'venue', urgent: true },
-    { text: '場佈組撤場規劃（相本、禮金、婚卡、佈置用品）', cat: 'venue' },
-  ]},
-  { group: '人員與分工', items: [
-    { text: '婚禮總召確認', cat: 'people' },
-    { text: '伴郎伴娘確認', cat: 'people' },
-    { text: '花童確認（共4+1）', cat: 'people' },
-    { text: '敬拜團成員確認', cat: 'people' },
-    { text: '招待組人員分工', cat: 'people' },
-    { text: '禮金組人員（男女方各三位）', cat: 'people' },
-    { text: '禮車司機確認', cat: 'people' },
-    { text: '攝影師（婚攝）確認', cat: 'people' },
-    { text: '主持人／司儀確認', cat: 'people' },
-    { text: '所有工作人員出席彩排確認', cat: 'people', urgent: true },
-  ]},
-  { group: '媒體與影音', items: [
-    { text: '婚紗輪播影片製作', cat: 'media' },
-    { text: '程序單設計與印刷', cat: 'media' },
-    { text: '電子程序單 QR Code 製作', cat: 'media' },
-    { text: '輪播歌單確認', cat: 'media' },
-    { text: '進場音樂確認（新郎、新娘）', cat: 'media' },
-    { text: '退場音樂確認', cat: 'media' },
-    { text: '音控測試', cat: 'media' },
-    { text: 'PPR 投影片製作（歌詞、讀經、程序）', cat: 'media' },
-  ]},
-  { group: '儀式道具', items: [
-    { text: '婚戒確認（戒指、戒枕）', cat: 'logistics', urgent: true },
-    { text: '六禮準備', cat: 'logistics', urgent: true },
-    { text: '花束 x2（謝親恩用）', cat: 'logistics' },
-    { text: '親恩謝卡製作（男女方各一）', cat: 'logistics' },
-    { text: '誓詞卡製作', cat: 'logistics' },
-    { text: '致謝詞準備', cat: 'logistics' },
-    { text: '工作人員胸花（含主婚人）', cat: 'logistics' },
-    { text: '紙本程序單確認數量', cat: 'logistics' },
-    { text: '小禮炮（男女方）', cat: 'logistics' },
-  ]},
-  { group: '飲食與招待', items: [
-    { text: '茶會點心準備', cat: 'food' },
-    { text: '喜餅發派名單確認', cat: 'food' },
-    { text: '訂婚湯圓確認', cat: 'food' },
-  ]},
-];
-
-const WEDDING_DATA_DEFAULT = [
-  { id: 'w1',  title: '敬拜彩排 / 場佈確認', dur: 60, detail: '影音彩排，確認場地佈置', personnel: '敬拜團、場佈組', av: '流程PPR、音樂播放', equipment: '音響設備、投影幕', phase: 'pre' },
-  { id: 'w2',  title: '新人轉場 / 教會清場', dur: 10, detail: '招待組請非工作人員到咖啡廳等待；上車物品：手機、鞋子、衣物', personnel: '禮車司機、招待組', av: '', equipment: '禮車', phase: 'pre' },
-  { id: 'w3',  title: '彩排',               dur: 30, detail: '影音測試；彩排：進場、流程走位、證婚、退場；主婚人、工作人員胸花配戴', personnel: '敬拜團、招待組、流程+音控全員', av: '影音測試、流程PPR', equipment: '胸花（主婚人）', phase: 'pre' },
-  { id: 'w4',  title: '會眾入席',           dur: 20, detail: '開放進場，播放婚紗輪播影片；動線招待、帶位招待（會堂）', personnel: '招待組、影音組', av: '婚紗輪播+程序單QR Code', equipment: '紙本程序單、教會座位圖', phase: 'pre' },
-  { id: 'w5',  title: '開場',               dur: 2,  detail: '影片停止，進開場PPR；司儀開場（總召 cue）', personnel: '司儀、總召', av: '開場PPR', equipment: '', phase: 'ceremony' },
-  { id: 'w6',  title: '進場',               dur: 15, detail: '男方主婚人、男女儐相、花童（4+1）、新郎，最後新娘+爸爸', personnel: '司儀、敬拜團、花童、伴郎伴娘', av: '新郎進場音樂、新娘進場音樂', equipment: '花束（花童）', phase: 'ceremony' },
-  { id: 'w7',  title: '敬拜',               dur: 10, detail: '會眾一同敬拜', personnel: '敬拜團', av: '歌詞PPR、現場樂器', equipment: '樂器（吉他、鼓、鍵盤）', phase: 'ceremony' },
-  { id: 'w8',  title: '獻詩',               dur: 10, detail: '??獻詩', personnel: '敬拜團、??', av: '現場樂器', equipment: '', phase: 'ceremony' },
-  { id: 'w9',  title: '禱告',               dur: 3,  detail: '會前禱告', personnel: '指定禱告者', av: '', equipment: '', phase: 'ceremony' },
-  { id: 'w10', title: '讀經',               dur: 3,  detail: '以弗所書五章22-28節', personnel: '讀經者', av: '讀經PPR（以弗所書5:22-28）', equipment: '', phase: 'ceremony' },
-  { id: 'w11', title: '勉勵',               dur: 8,  detail: '勉勵新人', personnel: '小組長', av: '', equipment: '', phase: 'ceremony' },
-  { id: 'w12', title: '證婚',               dur: 15, detail: '誓約、交換信物、宣告、揭紗（練習）、祝福', personnel: '證婚人、新郎、新娘', av: '司琴背景音樂', equipment: '誓詞卡、戒指、戒枕', phase: 'ceremony' },
-  { id: 'w13', title: '謝親恩',             dur: 12, detail: '新人致謝雙方父母（男方→女方）', personnel: '新人、雙方父母', av: '司琴背景音樂', equipment: '花束 x2、親恩謝卡', phase: 'ceremony' },
-  { id: 'w14', title: '致謝',               dur: 2,  detail: '新人致謝所有出席者', personnel: '新人', av: '', equipment: '致謝詞小抄', phase: 'ceremony' },
-  { id: 'w15', title: '祝禱',               dur: 2,  detail: '結束禱告', personnel: '指定禱告者', av: '', equipment: '', phase: 'ceremony' },
-  { id: 'w16', title: '退場',               dur: 2,  detail: '新人退場', personnel: '敬拜團', av: '退場音樂', equipment: '', phase: 'ceremony' },
-  { id: 'w17', title: '再次進場',           dur: 3,  detail: '進場後台上往台下大合照', personnel: '司儀、新人', av: '順序PPR', equipment: '', phase: 'post' },
-  { id: 'w18', title: '拍照',               dur: 20, detail: '依序：大合照、雙方主婚人、牧者同工、女方親人、女方朋友、男方朋友、教會、小組', personnel: 'SM協助引導、招待組搬椅、婚攝', av: '背景音樂', equipment: '', phase: 'post' },
-  { id: 'w19', title: '茶會',               dur: 15, detail: '茶會轉場；離開教會前往飯店；司機收東西跟人帶去會場', personnel: '招待組、新人、婚宴總召、男女儐相、禮金組', av: '', equipment: '茶點', phase: 'post' },
-  { id: 'w20', title: '教會撤場',           dur: 60, detail: '場佈組撤場：相本、禮金、禮金簿、婚卡、其他佈置用品', personnel: '場佈組+小幫手', av: '', equipment: '相本、禮金箱、婚卡', phase: 'post' },
-];
-
-const STAFF_DATA = [
-  { section: '婚禮核心', roles: ['婚禮總召','伴郎','伴郎','伴娘','伴娘','負責人'] },
-  { section: '交通', roles: ['司機1','司機2','迎娶助手','迎娶助手','迎娶助手'] },
-  { section: '儀式', roles: ['主持人/司儀','司琴(獻詩)','花童','花童','花童','花童','開始禱告','讀經','勉勵','證婚','結束禱告'] },
-  { section: '音控影音', roles: ['音控','PPR操作','導播+燈控','後台組長','右攝','左攝','支援後台','後台SM'] },
-  { section: '招待', roles: ['招待(女方)','招待(男方)','招待(女方)','招待(男方)','婚禮代收禮'] },
-  { section: '敬拜團', roles: ['敬拜主領','敬拜主領','敬拜配唱','敬拜配唱','敬拜吉他','敬拜鼓手','敬拜琴手','敬拜Bass手'] },
-  { section: '婚攝與場佈', roles: ['婚攝','婚攝','場佈組','佈置道具搬移幫手'] },
-  { section: '婚宴', roles: ['收禮金(男)','收禮金(男)','收禮金(男)','收禮金(女)','收禮金(女)','收禮金(女)','喜餅發派','喜餅發派','招待(男)','招待(男)','招待(女)','招待(女)','招待(女)','音控','小幫手','攝影','新秘'] },
-];
-
-// ─── STATE ──────────────────────────────────────────────────────────────────
-
-let checkState = {};
-let staffNames = {};
-let staffChecks = {};
-let filterMode = 'all';
-let weddingPhaseFilter = 'all';
-let notes = '';
-let weddingEvents = [];
-let wedStartTime = '12:00';
-let checklistItems = [];
-
-function buildDefaultChecklist() {
-  const items = [];
-  CHECKLIST_DATA_DEFAULT.forEach(group => {
-    group.items.forEach(item => {
-      items.push({ id: 'cl_' + Math.random().toString(36).slice(2), group: group.group, text: item.text, cat: item.cat, urgent: item.urgent || false, done: false });
-    });
-  });
-  return items;
-}
-
-function loadState() {
-  try {
-    const s = JSON.parse(localStorage.getItem('wedding_state') || '{}');
-    checkState    = s.checkState  || {};
-    staffNames    = s.staffNames  || {};
-    staffChecks   = s.staffChecks || {};
-    notes         = s.notes       || '';
-    weddingEvents = s.weddingEvents || JSON.parse(JSON.stringify(WEDDING_DATA_DEFAULT));
-    wedStartTime  = s.wedStartTime  || '12:00';
-    checklistItems = s.checklistItems || buildDefaultChecklist();
-  } catch(e) {
-    weddingEvents  = JSON.parse(JSON.stringify(WEDDING_DATA_DEFAULT));
-    checklistItems = buildDefaultChecklist();
-  }
-}
-function saveState() {
-  localStorage.setItem('wedding_state', JSON.stringify({
-    checkState, staffNames, staffChecks, notes,
-    weddingEvents, wedStartTime, checklistItems
-  }));
-}
-
-// ─── INIT ────────────────────────────────────────────────────────────────────
-
-loadState();
-document.getElementById('notes-text').value = notes;
-document.getElementById('wed-start-time').value = wedStartTime;
-renderChecklist();
-renderWeddingTimeline();
-renderStaff();
-updateProgress();
-
-function switchTab(tab) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + tab).classList.add('active');
-  const btns = document.querySelectorAll('nav button');
-  const tabIndex = ['overview','checklist','wedding','staff','notes'].indexOf(tab);
-  if (btns[tabIndex]) btns[tabIndex].classList.add('active');
-  if (tab === 'wedding') renderWeddingTimeline();
-  updateProgress();
-}
-
-// ─── CHECKLIST ───────────────────────────────────────────────────────────────
-
-
-function renderChecklist() {
-  const container = document.getElementById('checklist-container');
-  container.innerHTML = '';
-
-  // Group items
-  const groups = {};
-  checklistItems.forEach(item => {
-    if (!groups[item.group]) groups[item.group] = [];
-    groups[item.group].push(item);
-  });
-
-  Object.entries(groups).forEach(([groupName, items]) => {
-    const filtered = items.filter(item => {
-      if (filterMode === 'done') return item.done;
-      if (filterMode === 'todo') return !item.done;
-      return true;
-    });
-    if (!filtered.length) return;
-
-    const groupDiv = document.createElement('div');
-    groupDiv.className = 'checklist-group';
-    groupDiv.innerHTML = `<div class="checklist-group-title">${groupName}</div>`;
-
-    filtered.forEach(item => {
-      const itemDiv = document.createElement('div');
-      itemDiv.className = 'checklist-item' + (item.done ? ' done' : '');
-      itemDiv.innerHTML = `
-        <div class="checkbox"></div>
-        <div class="item-content">
-          <div class="item-text">${item.text}</div>
-          <div class="item-meta">
-            <span class="tag ${TAG_MAP[item.cat] || ''}">${TAG_LABEL[item.cat] || item.cat}</span>
-            ${item.urgent ? '<span class="tag tag-urgent">⚡ 優先</span>' : ''}
-          </div>
-        </div>
-        <button class="btn-del-item" onclick="deleteItem('${item.id}', event)" title="刪除">✕</button>`;
-      itemDiv.querySelector('.checkbox').addEventListener('click', (e) => {
-        e.stopPropagation();
-        item.done = !item.done;
-        saveState(); renderChecklist(); updateProgress();
-      });
-      itemDiv.querySelector('.item-content').addEventListener('click', () => {
-        item.done = !item.done;
-        saveState(); renderChecklist(); updateProgress();
-      });
-      groupDiv.appendChild(itemDiv);
-    });
-    container.appendChild(groupDiv);
-  });
-
-  if (!checklistItems.length) {
-    container.innerHTML = '<div style="text-align:center;padding:3rem;color:#ccc;">尚無待辦項目，請新增</div>';
-  }
-}
-
-function deleteItem(id, e) {
-  e.stopPropagation();
-  checklistItems = checklistItems.filter(i => i.id !== id);
-  saveState(); renderChecklist(); updateProgress();
-}
-
-function filterItems(mode, btn) {
-  filterMode = mode;
-  document.querySelectorAll('#panel-checklist .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderChecklist();
-}
-
-function addItem() {
-  const text = document.getElementById('new-item-text').value.trim();
-  if (!text) { document.getElementById('new-item-text').focus(); return; }
-  const cat   = document.getElementById('new-item-cat').value;
-  const group = document.getElementById('new-item-group').value;
-  checklistItems.push({
-    id: 'cl_' + Date.now(),
-    group, text, cat,
-    urgent: cat === 'urgent',
-    done: false
-  });
-  document.getElementById('new-item-text').value = '';
-  saveState(); renderChecklist(); updateProgress();
-}
-
-function updateProgress() {
-  const total = checklistItems.length;
-  const done  = checklistItems.filter(i => i.done).length;
-  const pct   = total ? Math.round(done / total * 100) : 0;
-
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = done + '/' + total;
-  document.getElementById('ov-done').textContent = done;
-  document.getElementById('ov-todo').textContent = total - done;
-  document.getElementById('ov-progress').style.width = pct + '%';
-  document.getElementById('ov-pct').textContent = pct + '% 完成';
-
-  const upEl = document.getElementById('ov-upcoming');
-  if (upEl) {
-    const urgents = checklistItems.filter(i => !i.done && i.urgent);
-    upEl.innerHTML = urgents.length
-      ? urgents.map(i => `
-          <div style="display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0;border-bottom:1px solid var(--light);">
-            <span style="color:var(--rose);font-size:0.8rem;">⚡</span>
-            <span style="font-size:0.85rem;">${i.text}</span>
-          </div>`).join('')
-      : '<div style="font-size:0.85rem;color:#aaa;text-align:center;padding:1rem;">🎉 所有緊急項目已完成！</div>';
-  }
-}
-
-// ─── TIME UTILITIES ──────────────────────────────────────────────────────────
-
-function timeToMins(t) {
-  const [h, m] = t.split(':').map(Number);
-  return h * 60 + m;
-}
-function minsToTime(total) {
-  const h = Math.floor(total / 60) % 24;
-  const m = total % 60;
-  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
-}
-function calcTimes(events, startTime) {
-  let cursor = timeToMins(startTime);
-  return events.map(e => {
-    const t = minsToTime(cursor);
-    cursor += parseInt(e.dur) || 0;
-    return { ...e, computedTime: t };
-  });
-}
-
-// ─── WEDDING TIMELINE ────────────────────────────────────────────────────────
-
-function renderWeddingTimeline() {
-  const container = document.getElementById('wedding-timeline');
-  if (!container) return;
-
-  const visible = weddingPhaseFilter === 'all'
-    ? weddingEvents
-    : weddingEvents.filter(e => e.phase === weddingPhaseFilter);
-
-  if (!visible.length) {
-    container.innerHTML = `<div class="tl-empty"><div class="tl-empty-icon">💒</div>此分類沒有活動</div>`;
-    updateWedTotals([]); return;
+  function saveState() {
+    localStorage.setItem('wedding_todos', JSON.stringify(state.todos));
+    localStorage.setItem('wedding_flows', JSON.stringify(state.flows));
+    localStorage.setItem('wedding_staff', JSON.stringify(state.staff));
+    localStorage.setItem('wedding_notes', state.notes);
+    renderAll();
   }
 
-  const allTimed = calcTimes(weddingEvents, wedStartTime);
-  const timedMap = {};
-  allTimed.forEach(e => timedMap[e.id] = e.computedTime);
-  updateWedTotals(weddingEvents);
+  // 切換頁籤
+  function switchTab(tabId) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
 
-  const phaseColor = { pre:'var(--sage)', ceremony:'var(--rose)', post:'var(--gold)' };
-  const phaseCls   = { pre:'phase-pre', ceremony:'phase-ceremony', post:'phase-post' };
+  // 待辦功能
+  function addTodo() {
+    const text = document.getElementById('new-todo-text').value;
+    if (!text) return;
+    state.todos.push({ id: Date.now(), text, done: false });
+    document.getElementById('new-todo-text').value = '';
+    saveState();
+  }
 
-  container.innerHTML = visible.map(e => `
-    <div class="timeline-event" data-id="${e.id}">
-      <div class="event-time">${timedMap[e.id] || ''}</div>
-      <div class="event-dot" style="background:${phaseColor[e.phase]||'var(--gold)'}"></div>
-      <div class="event-card">
-        <div class="event-card-header">
-          <input class="event-title-input" value="${escHtml(e.title)}"
-            onchange="updateWedEvent('${e.id}','title',this.value)" placeholder="活動名稱">
-          <button class="btn-del-event" onclick="deleteWedEvent('${e.id}')" title="刪除">✕</button>
-        </div>
-        <div class="event-card-meta">
-          <div class="dur-wrap">
-            <label>⏱</label>
-            <input class="dur-input" type="number" min="1" value="${e.dur}"
-              onchange="updateWedEvent('${e.id}','dur',this.value)">
-            <label>分鐘</label>
+  function toggleTodo(id) {
+    const todo = state.todos.find(t => t.id === id);
+    if (todo) todo.done = !todo.done;
+    saveState();
+  }
+
+  function deleteTodo(id) {
+    state.todos = state.todos.filter(t => t.id !== id);
+    saveState();
+  }
+
+  // 流程功能
+  function addFlow() {
+    const time = document.getElementById('new-flow-time').value;
+    const title = document.getElementById('new-flow-title').value;
+    const desc = document.getElementById('new-flow-desc').value;
+    if (!title) return;
+    state.flows.push({ id: Date.now(), time, title, desc });
+    state.flows.sort((a, b) => a.time.localeCompare(b.time));
+    document.getElementById('new-flow-title').value = '';
+    document.getElementById('new-flow-desc').value = '';
+    saveState();
+  }
+
+  function deleteFlow(id) {
+    state.flows = state.flows.filter(f => f.id !== id);
+    saveState();
+  }
+
+  // 人員功能
+  function addStaff() {
+    const role = document.getElementById('new-staff-role').value;
+    const name = document.getElementById('new-staff-name').value;
+    if (!role || !name) return;
+    state.staff.push({ id: Date.now(), role, name });
+    document.getElementById('new-staff-role').value = '';
+    document.getElementById('new-staff-name').value = '';
+    saveState();
+  }
+
+  function deleteStaff(id) {
+    state.staff = state.staff.filter(s => s.id !== id);
+    saveState();
+  }
+
+  // 筆記功能
+  function saveNotes() {
+    state.notes = document.getElementById('notes-content').value;
+    localStorage.setItem('wedding_notes', state.notes);
+    updateOverview();
+  }
+
+  // 渲染頁面
+  function renderAll() {
+    renderTodos();
+    renderFlows();
+    renderStaff();
+    updateOverview();
+  }
+
+  function renderTodos() {
+    const list = document.getElementById('checklist-list');
+    list.innerHTML = state.todos.map(t => `
+      <div class="checklist-item ${t.done ? 'done' : ''}">
+        <div class="checkbox" onclick="toggleTodo(${t.id})"></div>
+        <div class="item-text" onclick="toggleTodo(${t.id})">${t.text}</div>
+        <div class="btn-del" onclick="deleteTodo(${t.id})">×</div>
+      </div>
+    `).join('');
+  }
+
+  function renderFlows() {
+    const list = document.getElementById('timeline-list');
+    list.innerHTML = state.flows.map(f => `
+      <div class="timeline-item">
+        <div class="time-label">${f.time}</div>
+        <div class="time-dot"></div>
+        <div class="event-card">
+          <div style="display:flex; justify-content:space-between">
+            <h3>${f.title}</h3>
+            <span class="btn-del" onclick="deleteFlow(${f.id})">×</span>
           </div>
-          <select class="phase-badge ${phaseCls[e.phase]||''}"
-            onchange="updateWedEvent('${e.id}','phase',this.value)"
-            style="border:none;cursor:pointer;font-size:0.65rem;padding:0.1rem 0.4rem;border-radius:99px;appearance:none;-webkit-appearance:none;">
-            <option value="pre"      ${e.phase==='pre'?'selected':''}>準備</option>
-            <option value="ceremony" ${e.phase==='ceremony'?'selected':''}>儀式</option>
-            <option value="post"     ${e.phase==='post'?'selected':''}>儀式後</option>
-          </select>
-        </div>
-        <div class="event-fields">
-          <div class="event-field">
-            <div class="event-field-label">📋 內容</div>
-            <textarea class="event-field-input" rows="2"
-              onchange="updateWedEvent('${e.id}','detail',this.value)"
-              oninput="autoResize(this)"
-              placeholder="活動內容說明">${escHtml(e.detail||'')}</textarea>
-          </div>
-          <div class="event-field">
-            <div class="event-field-label">👤 人員</div>
-            <textarea class="event-field-input" rows="2"
-              onchange="updateWedEvent('${e.id}','personnel',this.value)"
-              oninput="autoResize(this)"
-              placeholder="負責人員">${escHtml(e.personnel||'')}</textarea>
-          </div>
-          <div class="event-field">
-            <div class="event-field-label">🎬 影音</div>
-            <textarea class="event-field-input" rows="2"
-              onchange="updateWedEvent('${e.id}','av',this.value)"
-              oninput="autoResize(this)"
-              placeholder="影音需求">${escHtml(e.av||'')}</textarea>
-          </div>
-          <div class="event-field">
-            <div class="event-field-label">📦 器材</div>
-            <textarea class="event-field-input" rows="2"
-              onchange="updateWedEvent('${e.id}','equipment',this.value)"
-              oninput="autoResize(this)"
-              placeholder="所需器材物品">${escHtml(e.equipment||'')}</textarea>
-          </div>
+          <div class="event-detail">${f.desc}</div>
         </div>
       </div>
-    </div>`).join('');
-}
-
-function updateWedTotals(events) {
-  const total = events.reduce((s, e) => s + (parseInt(e.dur)||0), 0);
-  const el = document.getElementById('wed-total-label');
-  if (el) el.textContent = `共 ${total} 分鐘（${Math.floor(total/60)}h${total%60}m）`;
-}
-
-function recalcWeddingTimes() {
-  wedStartTime = document.getElementById('wed-start-time').value || '12:00';
-  saveState(); renderWeddingTimeline();
-}
-
-function updateWedEvent(id, field, value) {
-  const e = weddingEvents.find(x => x.id === id);
-  if (!e) return;
-  e[field] = field === 'dur' ? Math.max(1, parseInt(value)||1) : value;
-  saveState(); renderWeddingTimeline();
-}
-
-function deleteWedEvent(id) {
-  weddingEvents = weddingEvents.filter(e => e.id !== id);
-  saveState(); renderWeddingTimeline();
-}
-
-function filterWedding(phase, btn) {
-  weddingPhaseFilter = phase;
-  document.querySelectorAll('#panel-wedding .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderWeddingTimeline();
-}
-
-function showAddWeddingForm() {
-  const f = document.getElementById('add-wedding-form');
-  f.style.display = f.style.display === 'none' ? 'flex' : 'none';
-}
-
-function addWeddingEvent() {
-  const title = document.getElementById('wed-new-title').value.trim();
-  if (!title) { document.getElementById('wed-new-title').focus(); return; }
-  const dur       = parseInt(document.getElementById('wed-new-dur').value) || 10;
-  const phase     = document.getElementById('wed-new-phase').value;
-  const detail    = document.getElementById('wed-new-detail').value.trim();
-  const personnel = document.getElementById('wed-new-personnel').value.trim();
-  const av        = document.getElementById('wed-new-av').value.trim();
-  const equipment = document.getElementById('wed-new-equipment').value.trim();
-  const newId = 'w_' + Date.now();
-  weddingEvents.push({ id: newId, title, dur, detail, personnel, av, equipment, phase });
-  ['wed-new-title','wed-new-detail','wed-new-personnel','wed-new-av','wed-new-equipment'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('add-wedding-form').style.display = 'none';
-  saveState(); renderWeddingTimeline();
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = el.scrollHeight + 'px';
-}
-
-function escHtml(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ─── PRINT / DOWNLOAD ────────────────────────────────────────────────────────
-
-function printTimeline() {
-  const allTimed = calcTimes(weddingEvents, wedStartTime);
-  const phaseLabel = { pre:'彩排準備', ceremony:'正式儀式', post:'儀式後' };
-
-  let lastPhase = null;
-  const rows = allTimed.map(e => {
-    let sectionHeader = '';
-    if (e.phase !== lastPhase) {
-      lastPhase = e.phase;
-      sectionHeader = `<div class="print-section-title">${phaseLabel[e.phase] || e.phase}</div>`;
-    }
-    const hasFields = e.detail || e.personnel || e.av || e.equipment;
-    return `${sectionHeader}
-    <div class="print-event">
-      <div class="print-event-time">${e.computedTime}</div>
-      <div class="print-event-body">
-        <div class="print-event-title">${escHtml(e.title)}
-          <span style="font-size:8pt;color:#aaa;font-weight:400;margin-left:6px;">⏱ ${e.dur} 分鐘</span>
-        </div>
-        ${hasFields ? `<div class="print-event-grid">
-          ${e.detail    ? `<div class="print-event-field"><div class="print-event-field-label">📋 內容</div><div class="print-event-field-val">${escHtml(e.detail)}</div></div>` : ''}
-          ${e.personnel ? `<div class="print-event-field"><div class="print-event-field-label">👤 人員</div><div class="print-event-field-val">${escHtml(e.personnel)}</div></div>` : ''}
-          ${e.av        ? `<div class="print-event-field"><div class="print-event-field-label">🎬 影音</div><div class="print-event-field-val">${escHtml(e.av)}</div></div>` : ''}
-          ${e.equipment ? `<div class="print-event-field"><div class="print-event-field-label">📦 器材</div><div class="print-event-field-val">${escHtml(e.equipment)}</div></div>` : ''}
-        </div>` : ''}
-      </div>
-    </div>`;
-  }).join('');
-
-  const totalMins = weddingEvents.reduce((s, e) => s + (parseInt(e.dur)||0), 0);
-  const endT = minsToTime(timeToMins(wedStartTime) + totalMins);
-
-  openPrintWindow('婚禮儀式流程表', `
-    <div class="print-header">
-      <h1>婚禮儀式流程表</h1>
-      <p>Wedding Ceremony Schedule &nbsp;·&nbsp; ${wedStartTime} – ${endT} &nbsp;·&nbsp; 共 ${totalMins} 分鐘</p>
-    </div>
-    ${rows}
-  `);
-}
-
-function printChecklist() {
-  const groups = {};
-  checklistItems.forEach(item => {
-    if (!groups[item.group]) groups[item.group] = [];
-    groups[item.group].push(item);
-  });
-  const total = checklistItems.length;
-  const done  = checklistItems.filter(i => i.done).length;
-
-  const groupHtml = Object.entries(groups).map(([name, items]) => {
-    const itemRows = items.map(item => `
-      <div class="print-item">
-        <div class="print-item-box ${item.done ? 'done' : ''}">${item.done ? '✓' : ''}</div>
-        <div class="print-item-text ${item.done ? 'done' : ''}">${escHtml(item.text)}</div>
-      </div>`).join('');
-    return `<div class="print-group-title">${name}</div>${itemRows}`;
-  }).join('');
-
-  openPrintWindow('婚禮待辦清單', `
-    <div class="print-header">
-      <h1>婚禮待辦清單</h1>
-      <p>Wedding Checklist &nbsp;·&nbsp; 已完成 ${done} / ${total} 項</p>
-    </div>
-    <div class="print-two-col">${groupHtml}</div>
-  `);
-}
-
-async function openPrintWindow(title, bodyHtml) {
-  // Show loading state on buttons
-  document.querySelectorAll('.btn-download').forEach(b => {
-    b._origText = b.innerHTML;
-    b.disabled = true;
-    b.innerHTML = '⏳ 產生中...';
-  });
-
-  // Build a hidden render container with full styles
-  const container = document.createElement('div');
-  container.style.cssText = `
-    position:fixed; left:-9999px; top:0;
-    width:794px; background:white;
-    font-family:'Noto Serif TC',serif; color:#2d2d2d;
-    font-size:13px; padding:60px 72px; box-sizing:border-box;
-  `;
-  container.innerHTML = `
-    <style>
-      .print-header { text-align:center; margin-bottom:32px; border-bottom:2px solid #c4a35a; padding-bottom:20px; }
-      .print-header h1 { font-size:22px; font-weight:300; letter-spacing:0.15em; color:#5c3d2e; margin-bottom:6px; }
-      .print-header p  { font-size:11px; color:#aaa; letter-spacing:0.1em; }
-      .print-section-title { font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:#c4a35a; margin:20px 0 8px; font-weight:500; border-bottom:1px solid #f0ebe3; padding-bottom:4px; }
-      .print-event { display:flex; gap:12px; margin-bottom:6px; border:1px solid #f0ebe3; border-radius:5px; padding:8px 12px; }
-      .print-event-time { min-width:48px; font-size:11px; color:#c9826b; font-weight:500; padding-top:2px; }
-      .print-event-body { flex:1; }
-      .print-event-title { font-size:13px; font-weight:500; margin-bottom:5px; }
-      .print-event-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px 12px; }
-      .print-event-field { font-size:10px; }
-      .print-event-field-label { color:#c4a35a; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:1px; }
-      .print-event-field-val { color:#555; line-height:1.5; }
-      .print-group-title { font-size:11px; font-weight:500; color:#5c3d2e; margin:14px 0 5px; letter-spacing:0.06em; }
-      .print-item { display:flex; align-items:flex-start; gap:8px; padding:5px 6px; border-bottom:1px solid #f7f4f0; }
-      .print-item-box { width:12px; height:12px; min-width:12px; border:1.5px solid #c9826b; border-radius:2px; margin-top:2px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:9px; }
-      .print-item-box.done { background:#8a9e8c; border-color:#8a9e8c; color:white; }
-      .print-item-text { font-size:11px; line-height:1.6; }
-      .print-item-text.done { text-decoration:line-through; color:#aaa; }
-      .print-two-col { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; }
-      .print-footer { margin-top:28px; text-align:center; font-size:10px; color:#ccc; border-top:1px solid #f0ebe3; padding-top:8px; }
-    </style>
-    ${bodyHtml}
-    <div class="print-footer">婚禮籌備管理系統 · 列印於 ${new Date().toLocaleDateString('zh-TW')}</div>
-  `;
-  document.body.appendChild(container);
-
-  try {
-    const canvas = await html2canvas(container, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      width: 794,
-      windowWidth: 794
-    });
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-    const pageW = 210, pageH = 297;
-    const imgW  = pageW;
-    const imgH  = (canvas.height / canvas.width) * imgW;
-
-    // Split into pages if content is taller than A4
-    let yOffset = 0;
-    while (yOffset < imgH) {
-      if (yOffset > 0) pdf.addPage();
-      pdf.addImage(
-        canvas.toDataURL('image/png'), 'PNG',
-        0, -yOffset, imgW, imgH
-      );
-      yOffset += pageH;
-    }
-
-    pdf.save(title + '.pdf');
-  } catch(err) {
-    alert('PDF 產生失敗，請重試。');
-    console.error(err);
-  } finally {
-    document.body.removeChild(container);
-    document.querySelectorAll('.btn-download').forEach(b => {
-      b.disabled = false;
-      b.innerHTML = b._origText;
-    });
+    `).join('');
   }
-}
 
-// ─── STAFF ───────────────────────────────────────────────────────────────────
+  function renderStaff() {
+    const list = document.getElementById('staff-list');
+    list.innerHTML = state.staff.map(s => `
+      <div class="staff-card">
+        <div style="display:flex; justify-content:space-between">
+          <div class="staff-role">${s.role}</div>
+          <span class="btn-del" onclick="deleteStaff(${s.id})">×</span>
+        </div>
+        <div class="staff-name">${s.name}</div>
+      </div>
+    `).join('');
+  }
 
-function renderStaff() {
-  const container = document.getElementById('staff-container');
-  container.innerHTML = '';
-  STAFF_DATA.forEach(section => {
-    const label = document.createElement('div');
-    label.className = 'staff-section-label';
-    label.textContent = section.section;
-    container.appendChild(label);
-    const grid = document.createElement('div');
-    grid.className = 'staff-grid';
-    section.roles.forEach((role, i) => {
-      const key = section.section + '_' + i;
-      const card = document.createElement('div');
-      card.className = 'staff-card';
-      const nameVal = staffNames[key] || '';
-      const c1 = (staffChecks[key+'_彩排'] || false);
-      const c2 = (staffChecks[key+'_禮物'] || false);
-      card.innerHTML = `
-        <div class="staff-role">${role}</div>
-        <div class="staff-name"><input type="text" placeholder="填入姓名" value="${nameVal}" data-key="${key}" /></div>
-        <div class="staff-checks">
-          <span class="staff-check ${c1?'on':''}" data-key="${key}_彩排" onclick="toggleCheck(this)">出席彩排</span>
-          <span class="staff-check ${c2?'on':''}" data-key="${key}_禮物" onclick="toggleCheck(this)">準備禮物</span>
-        </div>`;
-      const inp = card.querySelector('input');
-      inp.addEventListener('input', function() {
-        staffNames[this.dataset.key] = this.value;
-        saveState();
-      });
-      grid.appendChild(card);
-    });
-    container.appendChild(grid);
-  });
-}
+  function updateOverview() {
+    const total = state.todos.length;
+    const done = state.todos.filter(t => t.done).length;
+    const pct = total === 0 ? 0 : Math.round((done / total) * 100);
 
-function toggleCheck(el) {
-  const key = el.dataset.key;
-  staffChecks[key] = !staffChecks[key];
-  el.classList.toggle('on', staffChecks[key]);
-  saveState();
-}
+    document.getElementById('ov-todo-count').innerText = total - done;
+    document.getElementById('ov-done-count').innerText = done;
+    document.getElementById('ov-staff-count').innerText = state.staff.length;
+    document.getElementById('ov-progress-bar').style.width = pct + '%';
+    document.getElementById('ov-progress-text').innerText = pct + '% 完成';
+  }
 
-// ─── NOTES ───────────────────────────────────────────────────────────────────
-
-function saveNotes() {
-  notes = document.getElementById('notes-text').value;
-  saveState();
-  const s = document.getElementById('notes-saved');
-  s.style.display = 'inline';
-  setTimeout(() => s.style.display = 'none', 2000);
-}
+  // 初始化
+  window.onload = () => {
+    document.getElementById('notes-content').value = state.notes;
+    renderAll();
+  };
 </script>
+
 </body>
 </html>
