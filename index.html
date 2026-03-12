@@ -745,6 +745,21 @@
   <div class="section-title">婚禮籌備總覽</div>
   <div class="section-subtitle">WEDDING OVERVIEW · 掌握籌備進度</div>
 
+  <div id="intro-banner" style="background:linear-gradient(135deg,#fff8f5,#fdf3ee);border:1px solid var(--blush);border-radius:12px;padding:1.4rem 1.5rem;margin-bottom:1.5rem;position:relative;">
+    <button onclick="closeIntroBanner()" style="position:absolute;top:10px;right:12px;background:none;border:none;cursor:pointer;color:#ccc;font-size:1.1rem;line-height:1;" title="關閉">✕</button>
+    <div style="font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:0.7rem;">✦ 關於這個工具</div>
+    <p style="font-size:0.88rem;line-height:1.9;color:var(--deep);margin:0 0 0.9rem;">
+      準備結婚卻不知道從哪裡開始？這是一個專為婚禮籌備設計的免費網頁工具，不用下載 App、不用註冊帳號，打開就能用。
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.5rem 1.2rem;">
+      <div style="font-size:0.82rem;color:#888;">✅ <b style="color:var(--deep);">待辦清單</b> — 逐項勾選不遺漏</div>
+      <div style="font-size:0.82rem;color:#888;">💒 <b style="color:var(--deep);">婚禮流程</b> — 時間軸拖拽排序</div>
+      <div style="font-size:0.82rem;color:#888;">👥 <b style="color:var(--deep);">工作人員</b> — 分工聯絡一目瞭然</div>
+      <div style="font-size:0.82rem;color:#888;">📥 <b style="color:var(--deep);">導出</b> — PDF 與 CSV 格式皆支援</div>
+    </div>
+    <div style="margin-top:0.9rem;font-size:0.75rem;color:#bbb;">所有資料儲存在瀏覽器本機，關掉再開不會消失。</div>
+  </div>
+
   <div id="ov-urgent-block" style="display:none;background:white;border-radius:10px;padding:1.2rem 1.5rem;border:1.5px solid #f5c2b4;margin-bottom:1.5rem;">
     <div style="font-size:0.75rem;letter-spacing:0.2em;color:#c0392b;margin-bottom:0.8rem;">⚡ 重要待辦提醒</div>
     <div id="ov-upcoming"></div>
@@ -1031,6 +1046,11 @@ function loadState() {
     staffNames    = s.staffNames  || {};
     staffChecks   = s.staffChecks || {};
     staffPhones   = s.staffPhones || {};
+    // Hide intro banner if previously dismissed
+    if (localStorage.getItem('intro_dismissed') === '1') {
+      const b = document.getElementById('intro-banner');
+      if (b) b.style.display = 'none';
+    }
     staffData     = s.staffData   || JSON.parse(JSON.stringify(STAFF_DATA));
     notes         = s.notes       || '';
     weddingEvents = s.weddingEvents || JSON.parse(JSON.stringify(WEDDING_DATA_DEFAULT));
@@ -1409,6 +1429,12 @@ function addWeddingEvent() {
 function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = el.scrollHeight + 'px';
+}
+
+function closeIntroBanner() {
+  const b = document.getElementById('intro-banner');
+  if (b) { b.style.transition = 'opacity 0.3s'; b.style.opacity = '0'; setTimeout(() => b.style.display = 'none', 300); }
+  localStorage.setItem('intro_dismissed', '1');
 }
 
 function escHtml(s) {
