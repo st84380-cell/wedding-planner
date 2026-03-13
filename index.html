@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>婚禮籌備管理系統</title>
+<title>婚禮籌備小幫手</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -723,8 +723,8 @@
 
 <header>
   <div class="header-content">
-    <div class="header-en">Wedding Planning Manager</div>
-    <h1>婚禮籌備管理系統</h1>
+    <div class="header-en">Wedding Planning Helper</div>
+    <h1>婚禮籌備小幫手</h1>
     <div class="header-divider"><span>✦</span></div>
     <p>記錄每一個美好的準備時刻</p>
   </div>
@@ -757,7 +757,15 @@
       <div style="font-size:0.82rem;color:#888;">👥 <b style="color:var(--deep);">工作人員</b> — 分工聯絡一目瞭然</div>
       <div style="font-size:0.82rem;color:#888;">📥 <b style="color:var(--deep);">導出</b> — PDF 與 CSV 格式皆支援</div>
     </div>
-    <div style="margin-top:0.9rem;font-size:0.75rem;color:#bbb;">所有資料儲存在瀏覽器本機，關掉再開不會消失。</div>
+    <div style="margin-top:0.9rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.6rem;">
+      <div style="font-size:0.75rem;color:#bbb;">所有資料儲存在你的瀏覽器本機，換裝置或換瀏覽器不會同步。若需要與另一半或工作人員共享，請使用 CSV／PDF 匯出功能。</div>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeOUNGI2eWri6cSthGco_EQasfapNhnVQuP0frmScaY37wJ1w/viewform?usp=header" target="_blank"
+        style="font-size:0.78rem;color:var(--rose);text-decoration:none;border:1px solid var(--blush);border-radius:6px;padding:0.3rem 0.8rem;transition:all 0.2s;white-space:nowrap;"
+        onmouseover="this.style.background='var(--blush)';this.style.color='white'"
+        onmouseout="this.style.background='';this.style.color='var(--rose)'">
+        ✨ 登記使用 →
+      </a>
+    </div>
   </div>
 
   <div id="ov-urgent-block" style="display:none;background:white;border-radius:10px;padding:1.2rem 1.5rem;border:1.5px solid #f5c2b4;margin-bottom:1.5rem;">
@@ -1625,7 +1633,7 @@ async function openPrintWindow(title, bodyHtml) {
       .print-footer { margin-top:28px; text-align:center; font-size:10px; color:#ccc; border-top:1px solid #f0ebe3; padding-top:8px; }
     </style>
     ${bodyHtml}
-    <div class="print-footer">婚禮籌備管理系統 · 列印於 ${new Date().toLocaleDateString('zh-TW')}</div>
+    <div class="print-footer">婚禮籌備小幫手 · 列印於 ${new Date().toLocaleDateString('zh-TW')}</div>
   `;
   document.body.appendChild(container);
 
