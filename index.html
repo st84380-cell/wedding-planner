@@ -718,6 +718,79 @@
     /* Section titles */
     .section-title { font-size: 1.6rem; }
   }
+
+  /* ── BUDGET ── */
+  .budget-summary {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .budget-summary-card {
+    background: white; border-radius: 10px; padding: 1.2rem 1.3rem;
+    border: 1px solid var(--light);
+  }
+  .budget-summary-card.highlight-paid   { border-top: 3px solid var(--sage); }
+  .budget-summary-card.highlight-pending { border-top: 3px solid var(--blush); }
+  .budget-summary-card.highlight-remain  { border-top: 3px solid var(--gold); }
+  .bsc-label { font-size: 0.7rem; color: #aaa; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .bsc-val { font-size: 1.6rem; font-family: 'Cormorant Garamond', serif; font-weight: 300; color: var(--deep); }
+  .budget-summary-card input[type=number] {
+    margin-top: 0.5rem; width: 100%; border: none; border-bottom: 1px dashed var(--light);
+    font-family: 'Noto Serif TC', serif; font-size: 0.88rem; color: var(--deep);
+    background: none; outline: none; padding: 0.2rem 0;
+  }
+  .budget-summary-card input[type=number]:focus { border-bottom-color: var(--blush); }
+  .budget-category { background: white; border-radius: 10px; border: 1px solid var(--light); margin-bottom: 1rem; overflow: hidden; }
+  .budget-cat-header {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--light); background: var(--ivory);
+  }
+  .budget-cat-name {
+    font-size: 0.85rem; font-weight: 500; color: var(--deep); flex: 1;
+    background: none; border: none; font-family: 'Noto Serif TC', serif; outline: none;
+  }
+  .budget-cat-name:focus { border-bottom: 1px dashed var(--blush); }
+  .budget-cat-subtotal { font-size: 0.78rem; color: #aaa; white-space: nowrap; }
+  .budget-item-header {
+    display: grid; grid-template-columns: 1fr 90px 90px 90px 105px 28px;
+    gap: 0.5rem; padding: 0.4rem 1.2rem;
+    font-size: 0.65rem; color: #bbb; letter-spacing: 0.08em; border-bottom: 1px solid var(--light);
+  }
+  .budget-item-header span { text-align: right; }
+  .budget-item-header span:first-child { text-align: left; }
+  .budget-item {
+    display: grid; grid-template-columns: 1fr 90px 90px 90px 105px 28px;
+    gap: 0.5rem; align-items: center;
+    padding: 0.55rem 1.2rem; border-bottom: 1px solid #f5f0eb;
+  }
+  .budget-item:last-child { border-bottom: none; }
+  .budget-item input, .budget-item select {
+    font-family: 'Noto Serif TC', serif; font-size: 0.8rem; color: var(--deep);
+    border: none; border-bottom: 1px dashed transparent; background: none; outline: none;
+    width: 100%; padding: 0.15rem 0; transition: border 0.2s;
+  }
+  .budget-item input:focus, .budget-item select:focus { border-bottom-color: var(--blush); }
+  .budget-item input[type=number] { text-align: right; }
+  .budget-item input[type=date] { font-size: 0.75rem; color: #aaa; }
+  .btn-add-budget-item {
+    display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem;
+    color: #bbb; font-size: 0.8rem; cursor: pointer; border: none; background: none;
+    font-family: 'Noto Serif TC', serif; transition: color 0.2s;
+  }
+  .btn-add-budget-item:hover { color: var(--rose); }
+  .btn-del-budget { background: none; border: none; cursor: pointer; color: #ddd; font-size: 13px; padding: 0; transition: color 0.15s; }
+  .btn-del-budget:hover { color: #c0392b; }
+  .status-paid    { color: var(--sage); }
+  .status-partial { color: var(--gold); }
+  .status-unpaid  { color: var(--blush); }
+  .due-soon { color: #e67e22 !important; }
+  .overdue  { color: #c0392b !important; font-weight: 500; }
+  @media (max-width: 600px) {
+    .budget-item, .budget-item-header {
+      grid-template-columns: 1fr 75px 75px;
+    }
+    .budget-item .hide-mobile,
+    .budget-item-header .hide-mobile { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -736,6 +809,7 @@
   <button onclick="switchTab('checklist')"><span class="nav-icon">✅</span>待辦清單</button>
   <button onclick="switchTab('wedding')"><span class="nav-icon">💒</span>婚禮流程</button>
   <button onclick="switchTab('staff')"><span class="nav-icon">👥</span>工作人員</button>
+  <button onclick="switchTab('budget')"><span class="nav-icon">💰</span>預算</button>
   <button onclick="switchTab('notes')"><span class="nav-icon">📝</span>備忘筆記</button>
 </nav>
 
@@ -910,6 +984,53 @@
 </div>
 
 <!-- NOTES -->
+<!-- BUDGET -->
+<div id="panel-budget" class="panel">
+  <div class="section-title">預算管理</div>
+  <div class="section-subtitle">BUDGET · 掌握每一筆開銷</div>
+
+  <!-- Summary cards -->
+  <div class="budget-summary">
+    <div class="budget-summary-card">
+      <div class="bsc-label">總預算上限</div>
+      <div class="bsc-val" id="bsc-total">—</div>
+      <input type="number" id="budget-limit-input" placeholder="輸入總預算" min="0"
+        oninput="updateBudgetLimit(this.value)">
+    </div>
+    <div class="budget-summary-card highlight-paid">
+      <div class="bsc-label">已付金額</div>
+      <div class="bsc-val" id="bsc-paid">$0</div>
+    </div>
+    <div class="budget-summary-card highlight-pending">
+      <div class="bsc-label">待付金額</div>
+      <div class="bsc-val" id="bsc-pending">$0</div>
+    </div>
+    <div class="budget-summary-card highlight-remain">
+      <div class="bsc-label">剩餘預算</div>
+      <div class="bsc-val" id="bsc-remain">—</div>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div id="budget-progress-wrap" style="background:white;border-radius:10px;padding:1.2rem 1.5rem;border:1px solid var(--light);margin-bottom:1.5rem;">
+    <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#aaa;margin-bottom:0.6rem;">
+      <span>預算使用進度</span>
+      <span id="budget-pct-label">— %</span>
+    </div>
+    <div style="background:var(--ivory);border-radius:99px;height:10px;overflow:hidden;">
+      <div id="budget-progress-fill" style="height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sage),var(--rose));width:0%;transition:width 0.4s;"></div>
+    </div>
+    <div style="display:flex;gap:1.2rem;margin-top:0.8rem;flex-wrap:wrap;">
+      <span style="font-size:0.72rem;color:#aaa;display:flex;align-items:center;gap:0.3rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--sage);"></span>已付</span>
+      <span style="font-size:0.72rem;color:#aaa;display:flex;align-items:center;gap:0.3rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--blush);"></span>待付</span>
+    </div>
+  </div>
+
+  <!-- Category list -->
+  <div id="budget-container"></div>
+  <button class="staff-add-section" onclick="addBudgetCategory()">＋ 新增分類</button>
+</div>
+
 <div id="panel-notes" class="panel">
   <div class="section-title">備忘筆記</div>
   <div class="section-subtitle">NOTES · 自由記錄任何想法與提醒</div>
@@ -1034,6 +1155,8 @@ let staffData = [];   // mutable copy of staff sections+roles
 let filterMode = 'all';
 let weddingPhaseFilter = 'all';
 let notes = '';
+let budgetLimit = 0;
+let budgetCategories = [];
 let weddingEvents = [];
 let wedStartTime = '12:00';
 let checklistItems = [];
@@ -1062,6 +1185,8 @@ function loadState() {
     }
     staffData     = s.staffData   || JSON.parse(JSON.stringify(STAFF_DATA));
     notes         = s.notes       || '';
+    budgetLimit   = s.budgetLimit  || 0;
+    budgetCategories = s.budgetCategories || getDefaultBudgetCategories();
     weddingEvents = s.weddingEvents || JSON.parse(JSON.stringify(WEDDING_DATA_DEFAULT));
     wedStartTime  = s.wedStartTime  || '12:00';
     checklistItems = s.checklistItems || buildDefaultChecklist();
@@ -1073,6 +1198,7 @@ function loadState() {
 function saveState() {
   localStorage.setItem('wedding_state', JSON.stringify({
     checkState, staffNames, staffChecks, staffPhones, staffData, notes,
+    budgetLimit, budgetCategories,
     weddingEvents, wedStartTime, checklistItems
   }));
 }
@@ -1085,6 +1211,7 @@ document.getElementById('wed-start-time').value = wedStartTime;
 renderChecklist();
 renderWeddingTimeline();
 renderStaff();
+renderBudget();
 updateProgress();
 
 function switchTab(tab) {
@@ -1092,7 +1219,7 @@ function switchTab(tab) {
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
   const btns = document.querySelectorAll('nav button');
-  const tabIndex = ['overview','checklist','wedding','staff','notes'].indexOf(tab);
+  const tabIndex = ['overview','checklist','wedding','staff','budget','notes'].indexOf(tab);
   if (btns[tabIndex]) btns[tabIndex].classList.add('active');
   if (tab === 'wedding') renderWeddingTimeline();
   updateProgress();
@@ -1512,14 +1639,23 @@ function exportCSV(type) {
     });
   }
 
-  // BOM for Excel UTF-8
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  // BOM for Excel UTF-8 — use data URI for LINE WebView compatibility
+  const csvContent = '\uFEFF' + csv;
+  const isLine = /Line/i.test(navigator.userAgent);
+  if (isLine) {
+    // LINE WebView: open as data URI in new tab
+    const dataUri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent);
+    const w = window.open(dataUri, '_blank');
+    if (!w) alert('請允許彈出視窗，或長按連結儲存檔案。');
+  } else {
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 }
 
 // ─── PRINT / DOWNLOAD ────────────────────────────────────────────────────────
@@ -1664,7 +1800,22 @@ async function openPrintWindow(title, bodyHtml) {
       yOffset += pageH;
     }
 
-    pdf.save(title + '.pdf');
+    const isLine = /Line/i.test(navigator.userAgent);
+    if (isLine) {
+      // LINE WebView: open PDF as data URI in new tab
+      const dataUri = pdf.output('datauristring');
+      const w = window.open(dataUri, '_blank');
+      if (!w) {
+        // fallback: create link
+        const a = document.createElement('a');
+        a.href = dataUri;
+        a.download = title + '.pdf';
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a);
+      }
+    } else {
+      pdf.save(title + '.pdf');
+    }
   } catch(err) {
     alert('PDF 產生失敗，請重試。');
     console.error(err);
